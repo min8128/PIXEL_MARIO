@@ -34,7 +34,11 @@ public class App extends PApplet {
     public String configPath;
 
     public static Random random = new Random();
-	
+
+    PImage backgroundImg;
+    PImage characterImg;
+    Character tempCharacter;
+    
 	// Feel free to add any additional methods or attributes you want. Please put classes in different files.
 
     public App() {
@@ -58,6 +62,10 @@ public class App extends PApplet {
 		//See PApplet javadoc:
 		//loadJSONObject(configPath)
 		//loadImage(this.getClass().getResource(filename).getPath().toLowerCase(Locale.ROOT).replace("%20", " "));
+        backgroundImg = loadImage("src/main/resources/Tanks/basic.png");
+        characterImg = loadImage("src/main/resources/Tanks/tempCharacter.png");
+        characterImg.resize(100, 100);
+        tempCharacter = new Character();
     }
 
     /**
@@ -93,13 +101,13 @@ public class App extends PApplet {
      */
 	@Override
     public void draw() {
-        
-
         //----------------------------------
         //display HUD:
         //----------------------------------
         //TODO
+        background(backgroundImg);
 
+        image(characterImg,0,0);
         //----------------------------------
         //display scoreboard:
         //----------------------------------
