@@ -15,6 +15,7 @@ public class Character {
     public boolean moveRight;
     public boolean jump;
     public boolean onAir;
+    public boolean jumpable;
 
     public Character(float x, float y){
         this.x = x;
@@ -24,8 +25,8 @@ public class Character {
         this.gravity = 2;
         this.moveLeft = false;
         this.moveRight = false;
-        this.jump = false;
         this.onAir = false;
+
     }
 
     public void checkMovement() {
@@ -43,22 +44,25 @@ public class Character {
         }
     }
 
+
     public void checkUpDown() {
-        if (this.jump == true) {
-            this.yVol = -15;
-        }
+
         //on air
-        if (this.y <= 400) {
+        if (this.y < 400) {
             this.onAir = true;
             yVol += gravity;
             y += yVol;
         }
         //on ground
         else {
+            if (this.yVol == 30) {
+                this.yVol = 0;
+            }
             this.onAir = false;
             if (yVol <= 0) {
                 y += yVol;
             }
         }
+       
     }
 }

@@ -73,7 +73,6 @@ public class App extends PApplet {
      */
 	@Override
     public void keyPressed(KeyEvent event){
-        //System.out.println(event.getKeyCode());
         if (event.getKeyCode() == 65) {
             apple.moveLeft = true;
         }
@@ -82,11 +81,9 @@ public class App extends PApplet {
         }
 
         if (event.getKeyCode() == 87) {
-            if (apple.onAir == false && jumped == false) {
-                apple.jump = true;
-                jumped = true;
+            if (apple.onAir == false) {
+                apple.yVol -= 30;
             }
-            
         }
     }
 
@@ -102,8 +99,6 @@ public class App extends PApplet {
             apple.moveRight = false;
         }
         if (event.getKeyCode() == 87) {
-            jumped = false;
-            apple.jump = false;
         }
     }
 
