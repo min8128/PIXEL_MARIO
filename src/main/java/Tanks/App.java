@@ -27,8 +27,6 @@ public class App extends PApplet {
     public static final int BOARD_WIDTH = WIDTH/CELLSIZE;
     public static final int BOARD_HEIGHT = 20;
 
-    public static final int INITIAL_PARACHUTES = 1;
-
     public static final int FPS = 30;
 
     public String configPath;
@@ -36,8 +34,9 @@ public class App extends PApplet {
     public static Random random = new Random();
 
     PImage backgroundImg;
-    PImage characterImg;
-    Character tempCharacter;
+    PImage appleImg;
+    Character apple;
+    boolean jumped;
     
 	// Feel free to add any additional methods or attributes you want. Please put classes in different files.
 
@@ -63,9 +62,10 @@ public class App extends PApplet {
 		//loadJSONObject(configPath)
 		//loadImage(this.getClass().getResource(filename).getPath().toLowerCase(Locale.ROOT).replace("%20", " "));
         backgroundImg = loadImage("src/main/resources/Tanks/basic.png");
-        characterImg = loadImage("src/main/resources/Tanks/tempCharacter.png");
-        characterImg.resize(100, 100);
-        tempCharacter = new Character();
+        appleImg = loadImage("src/main/resources/Tanks/tempCharacter.png");
+        appleImg.resize(100, 100);
+        apple = new Character(200,400);
+        jumped = false;
     }
 
     /**
@@ -73,20 +73,44 @@ public class App extends PApplet {
      */
 	@Override
     public void keyPressed(KeyEvent event){
-        
+        //System.out.println(event.getKeyCode());
+        if (event.getKeyCode() == 65) {
+            apple.moveLeft = true;
+        }
+        if (event.getKeyCode() == 68) {
+            apple.moveRight = true;
+        }
+
+        if (event.getKeyCode() == 87) {
+            if (apple.onAir == false && jumped == false) {
+                apple.jump = true;
+                jumped = true;
+            }
+            
+        }
     }
 
     /**
      * Receive key released signal from the keyboard.
      */
 	@Override
-    public void keyReleased(){
-        
+    public void keyReleased(KeyEvent event){
+        if (event.getKeyCode() == 65) {
+            apple.moveLeft = false;
+        }
+        if (event.getKeyCode() == 68) {
+            apple.moveRight = false;
+        }
+        if (event.getKeyCode() == 87) {
+            jumped = false;
+            apple.jump = false;
+        }
     }
 
     @Override
     public void mousePressed(MouseEvent e) {
         //TODO - powerups, like repair and extra fuel and teleport
+        
 
 
     }
@@ -106,8 +130,8 @@ public class App extends PApplet {
         //----------------------------------
         //TODO
         background(backgroundImg);
-
-        image(characterImg,0,0);
+        image(appleImg, apple.x, apple.y);
+        apple.checkMovement();
         //----------------------------------
         //display scoreboard:
         //----------------------------------

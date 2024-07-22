@@ -5,15 +5,60 @@ import processing.core.PImage;
 
 
 public class Character {
-    public PImage characterImg;
+
     public float x;
     public float y;
-    public Character(){
-        this.x = 0;
-        this.y = 0;
+    public float xVol;
+    public float yVol;
+    public float gravity;
+    public boolean moveLeft;
+    public boolean moveRight;
+    public boolean jump;
+    public boolean onAir;
+
+    public Character(float x, float y){
+        this.x = x;
+        this.y = y;
+        this.xVol = 0;
+        this.yVol = 0;
+        this.gravity = 2;
+        this.moveLeft = false;
+        this.moveRight = false;
+        this.jump = false;
+        this.onAir = false;
     }
-    public void draw (PApplet app) {
-        app.loadImage("src/main/resources/Tanks/tempCharacter.png");
-        app.image(characterImg,x,y);
+
+    public void checkMovement() {
+        this.checkLeftRight();
+        this.checkUpDown();
+    }
+
+    public void checkLeftRight() {
+        if (this.moveLeft == true && this.x >= 0) {
+            this.x -= 10;
+        }
+
+        if (this.moveRight == true && this.x <= 864) {
+            this.x += 10;
+        }
+    }
+
+    public void checkUpDown() {
+        if (this.jump == true) {
+            this.yVol = -15;
+        }
+        //on air
+        if (this.y <= 400) {
+            this.onAir = true;
+            yVol += gravity;
+            y += yVol;
+        }
+        //on ground
+        else {
+            this.onAir = false;
+            if (yVol <= 0) {
+                y += yVol;
+            }
+        }
     }
 }
