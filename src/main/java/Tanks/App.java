@@ -35,6 +35,7 @@ public class App extends PApplet {
 
     PImage backgroundImg;
     PImage appleImg;
+    PImage idleSprite;
     Character apple;
     boolean jumped;
     
@@ -61,11 +62,17 @@ public class App extends PApplet {
 		//See PApplet javadoc:
 		//loadJSONObject(configPath)
 		//loadImage(this.getClass().getResource(filename).getPath().toLowerCase(Locale.ROOT).replace("%20", " "));
-        backgroundImg = loadImage("src/main/resources/Tanks/basic.png");
-        appleImg = loadImage("src/main/resources/Tanks/tempCharacter.png");
+        setupImage();
         appleImg.resize(100, 100);
         apple = new Character(200,400);
         jumped = false;
+    }
+
+    public void setupImage() {
+        backgroundImg = loadImage("src/main/resources/Tanks/basic.png");
+        appleImg = loadImage("src/main/resources/Tanks/tempCharacter.png");
+        //I use the "virtual guy" for our character
+        idleSprite = loadImage(DXF);
     }
 
     /**
