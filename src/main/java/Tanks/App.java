@@ -36,8 +36,9 @@ public class App extends PApplet {
     PImage backgroundImg;
     PImage appleImg;
     PImage idleSprite;
-    Character apple;
+    Character virtualGuy;
     boolean jumped;
+    float counter;
     
 	// Feel free to add any additional methods or attributes you want. Please put classes in different files.
 
@@ -64,15 +65,14 @@ public class App extends PApplet {
 		//loadImage(this.getClass().getResource(filename).getPath().toLowerCase(Locale.ROOT).replace("%20", " "));
         setupImage();
         appleImg.resize(100, 100);
-        apple = new Character(200,400);
-        jumped = false;
+        virtualGuy = new Character(200,400);
     }
 
     public void setupImage() {
         backgroundImg = loadImage("src/main/resources/Tanks/basic.png");
         appleImg = loadImage("src/main/resources/Tanks/tempCharacter.png");
         //I use the "virtual guy" for our character
-        idleSprite = loadImage(DXF);
+        idleSprite = loadImage("src/main/resources/Tanks/Free/Main Characters/Virtual Guy/Idle (32x32).png");
     }
 
     /**
@@ -81,15 +81,15 @@ public class App extends PApplet {
 	@Override
     public void keyPressed(KeyEvent event){
         if (event.getKeyCode() == 65) {
-            apple.moveLeft = true;
+            virtualGuy.moveLeft = true;
         }
         if (event.getKeyCode() == 68) {
-            apple.moveRight = true;
+            virtualGuy.moveRight = true;
         }
 
         if (event.getKeyCode() == 87) {
-            if (apple.onAir == false) {
-                apple.yVol -= 30;
+            if (virtualGuy.onAir == false) {
+                virtualGuy.yVol -= 30;
             }
         }
     }
@@ -100,10 +100,10 @@ public class App extends PApplet {
 	@Override
     public void keyReleased(KeyEvent event){
         if (event.getKeyCode() == 65) {
-            apple.moveLeft = false;
+            virtualGuy.moveLeft = false;
         }
         if (event.getKeyCode() == 68) {
-            apple.moveRight = false;
+            virtualGuy.moveRight = false;
         }
         if (event.getKeyCode() == 87) {
         }
@@ -132,8 +132,12 @@ public class App extends PApplet {
         //----------------------------------
         //TODO
         background(backgroundImg);
-        image(appleImg, apple.x, apple.y);
-        apple.checkMovement();
+  
+        processCharacterSprite();
+        
+        //image(spriteSheet, x, y, spriteWidth, spriteHeight, x1, y1, x2, y2);
+        
+        virtualGuy.checkMovement();
         //----------------------------------
         //display scoreboard:
         //----------------------------------
@@ -143,6 +147,19 @@ public class App extends PApplet {
         //----------------------------------
 
         //TODO: Check user action
+    }
+
+    public void processCharacterSprite() {
+        int cellSize = 100;
+        int index = (int)Math.floor(counter);
+        idleSprite.resize(cellSize*11,cellSize);
+        image(idleSprite, virtualGuy.x, virtualGuy.y, cellSize, cellSize, index * cellSize, 0, (index + 1) * cellSize, cellSize);
+        counter += 0.5;
+        //System.out.println(index);
+
+        if (counter >= 11) {
+            counter = 0;
+        }
     }
 
 
