@@ -39,7 +39,7 @@ public class Character {
             this.x -= 10;
         }
 
-        if (this.moveRight == true && this.x <= 864) {
+        if (this.moveRight == true && this.x <= 764) {
             this.x += 10;
         }
     }
